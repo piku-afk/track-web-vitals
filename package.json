@@ -1,0 +1,20 @@
+{
+  "name": "track-web-vitals",
+  "description": "This tool automatically generates Lighthouse scores, storing them securely in a database for convenient access and comprehensive trend analysis.",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "format": "prettier -w \"**/*.{ts,json}\" --ignore-unknown --cache"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "tsx": "^4.7.1"
+  }
+}
