@@ -3,18 +3,26 @@
   "description": "This tool automatically generates Lighthouse scores, storing them securely in a database for convenient access and comprehensive trend analysis.",
   "version": "1.0.0",
   "main": "src/index.ts",
+  "type": "module",
   "scripts": {
-    "start": "tsx src/index.ts",
-    "format": "prettier -w \"**/*.{ts,json}\" --ignore-unknown --cache"
+    "dev": "dotenvx run --env-file=.env.development -- tsx src/index.ts",
+    "studio": "dotenvx run --env-file=.env.production -- npx prisma studio",
+    "start": "dotenvx run --env-file=.env.production -- tsx src/index.ts",
+    "format": "prettier -w \"**/*.{ts,json}\" --ignore-unknown --cache",
+    "seed": "dotenvx run --env-file=.env.production -- tsx prisma/seed.ts",
+    "migrate": "dotenvx run --env-file=.env.production -- prisma migrate dev && prisma generate && npm run seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "prettier": "^3.2.5",
+    "prisma": "^5.11.0",
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^0.25.0",
+    "@prisma/client": "^5.11.0",
     "lighthouse": "^11.6.0",
     "pino": "^8.19.0",
     "pino-pretty": "^10.3.1",

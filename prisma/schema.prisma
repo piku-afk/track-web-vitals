@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model MetricData {
+  id                    Int               @id @default(autoincrement())
+  report_id             Int
+  performance_metric_id Int
+  value                 Float
+  unit                  String            @db.VarChar(20)
+  displayValue          String            @db.VarChar(255)
+  PerformanceMetric     PerformanceMetric @relation(fields: [performance_metric_id], references: [id])
+  Report                Report            @relation(fields: [report_id], references: [id])
+}
+
+model PerformanceMetric {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(50)
+  MetricData MetricData[]
+}
+
+model Report {
+  id         Int          @id @default(autoincrement())
+  created_at DateTime?    @default(now()) @db.Timestamp(6)
+  url        String       @db.VarChar(255)
+  type       ReportType
+  MetricData MetricData[]
+}
+
+enum ReportType {
+  MOBILE
+  DESKTOP
+}
