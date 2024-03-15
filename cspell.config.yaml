@@ -4,5 +4,6 @@ dictionaryDefinitions: []
 dictionaries: []
 words: []
 ignoreWords: 
+  - ianvs
   - pino
 import: []
