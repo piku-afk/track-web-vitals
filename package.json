@@ -11,7 +11,7 @@
     "format": "prettier -w \"**/*.{ts,json}\" --ignore-unknown --cache",
     "seed": "dotenvx run --env-file=.env.production -- tsx prisma/seed.ts",
     "migrate": "dotenvx run --env-file=.env.production -- prisma migrate dev && prisma generate && npm run seed",
-    "test": "vitest",
+    "test": "vitest run",
     "test:cov": "vitest run --coverage"
   },
   "keywords": [],
