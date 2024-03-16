@@ -8,7 +8,8 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reporter: ['html', 'lcov'],
-      exclude: ['prisma/**'],
+      exclude: ['prisma/**', 'src/utils/logger.ts'],
     },
+    clearMocks: true,
   },
 });
