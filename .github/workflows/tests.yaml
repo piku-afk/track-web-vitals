@@ -33,5 +33,7 @@ jobs:
         with:
           folder: apps/automation/coverage
 
+      - run: cd apps/automation
+
       - name: Update Coverage Badge
         uses: we-cli/coverage-badge-action@main
