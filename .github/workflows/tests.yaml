@@ -24,10 +24,10 @@ jobs:
       - name: Run Tests
         run: npm run test
 
-      - name: Update Coverage Badge
-        uses: we-cli/coverage-badge-action@main
-
       - name: Deploy to Github Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: coverage
+
+      - name: Update Coverage Badge
+        uses: we-cli/coverage-badge-action@main
