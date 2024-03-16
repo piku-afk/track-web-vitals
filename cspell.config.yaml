@@ -7,5 +7,7 @@ ignoreWords:
   - dotenvx
   - ianvs
   - lcov
+  - mahato
   - pino
+  - piyush
 import: []
