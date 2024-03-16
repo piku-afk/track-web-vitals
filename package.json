@@ -12,6 +12,7 @@
     "start": "dotenvx run --env-file=.env.production -- turbo start",
     "format": "prettier -w \"**/*.{ts,json,md}\" --ignore-unknown --cache",
     "migrate": "dotenvx run --env-file=.env.production -- pnpm --filter automation migrate && pnpm seed",
+    "generate": "pnpm --filter automation generate",
     "seed": "dotenvx run --env-file=.env.production -- pnpm --filter automation seed",
     "studio": "dotenvx run --env-file=.env.production -- pnpm --filter automation studio",
     "test": "turbo test",

@@ -27,5 +27,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Generate Prisma Types
+        run: pnpm generate
+
       - name: Run Script
         run: pnpm start
