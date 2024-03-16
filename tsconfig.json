@@ -1,33 +1,34 @@
 {
-	"compilerOptions": {
-		"target": "ESNext",
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["vitest/globals"],
 
-		/* base options */
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"skipLibCheck": true,
-		"moduleDetection": "force",
-		"allowJs": true,
-		"baseUrl": ".",
-		"paths": {
-			"@utils/*": ["src/utils/*"]
-		},
+    /* base options */
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "moduleDetection": "force",
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@utils/*": ["src/utils/*"]
+    },
 
-		/* linting */
-		"strict": true,
-		"checkJs": true,
-		"noUnusedLocals": true,
-		"noFallthroughCasesInSwitch": true,
-		"forceConsistentCasingInFileNames": true,
+    /* linting */
+    "strict": true,
+    "checkJs": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
 
-		/* bundler options */
-		"noEmit": true,
-		"newLine": "lf",
-		"jsx": "preserve",
-		"removeComments": true,
-		"verbatimModuleSyntax": true
-	}
+    /* bundler options */
+    "noEmit": true,
+    "newLine": "lf",
+    "jsx": "preserve",
+    "removeComments": true,
+    "verbatimModuleSyntax": true
+  }
 }

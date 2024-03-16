@@ -10,16 +10,21 @@
     "start": "dotenvx run --env-file=.env.production -- tsx src/index.ts",
     "format": "prettier -w \"**/*.{ts,json}\" --ignore-unknown --cache",
     "seed": "dotenvx run --env-file=.env.production -- tsx prisma/seed.ts",
-    "migrate": "dotenvx run --env-file=.env.production -- prisma migrate dev && prisma generate && npm run seed"
+    "migrate": "dotenvx run --env-file=.env.production -- prisma migrate dev && prisma generate && npm run seed",
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.2.0",
+    "@vitest/coverage-istanbul": "^1.4.0",
     "prettier": "^3.2.5",
     "prisma": "^5.11.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.4.0"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.25.0",

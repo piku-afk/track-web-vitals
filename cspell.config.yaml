@@ -1,9 +1,11 @@
-version: "0.2"
+version: '0.2'
 ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words: []
-ignoreWords: 
+ignoreWords:
+  - dotenvx
   - ianvs
+  - lcov
   - pino
 import: []
