@@ -19,7 +19,7 @@ jobs:
           touch .env.production
           echo DATABASE_URL=${{secrets.DATABASE_URL}} >> .env.production
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
       - name: Run Script

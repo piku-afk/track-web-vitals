@@ -6,8 +6,9 @@ export default defineConfig({
   test: {
     globals: true,
     coverage: {
+      enabled: true,
       provider: 'istanbul',
-      reporter: ['html', 'lcov'],
+      reporter: ['html', 'json-summary', 'lcov'],
       exclude: ['prisma/**', 'src/utils/logger.ts'],
     },
     clearMocks: true,
