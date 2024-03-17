@@ -1,6 +1,6 @@
 {
 	"folders": [
-		{ "path": "." },    
 		{ "path": "apps/automation" },
+		{ "path": "." },    
 	]
 }
