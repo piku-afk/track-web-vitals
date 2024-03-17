@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Dependencies
         run: rm -rf node_modules
-      - run: rm pnp-lock.yaml
+      - run: rm pnpm-lock.yaml
       - run: pnpm install --force
 
       - name: Generate Prisma Types
