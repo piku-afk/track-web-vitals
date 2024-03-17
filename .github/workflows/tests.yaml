@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  tests:
+  test-automation:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
         with:
           folder: apps/automation/coverage
 
-      - run: cd apps/automation
+      - run: cp -r apps/automation/coverage .
 
       - name: Update Coverage Badge
         uses: we-cli/coverage-badge-action@main
