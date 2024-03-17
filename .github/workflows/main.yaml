@@ -25,9 +25,7 @@ jobs:
           echo DATABASE_URL=${{secrets.DATABASE_URL}} >> .env.production
 
       - name: Install Dependencies
-        run: rm -rf node_modules
-      - run: rm pnpm-lock.yaml
-      - run: pnpm install --force
+        run: pnpm install
 
       - name: Generate Prisma Types
         run: pnpm generate
