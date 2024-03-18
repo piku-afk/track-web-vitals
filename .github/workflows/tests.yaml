@@ -14,4 +14,4 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Run Automation App Tests
-        uses: ./.github/worflows/tests/test-automation-app.yaml
+        uses: ./.github/worflows/test-automation-app.yaml
