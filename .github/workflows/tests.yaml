@@ -11,4 +11,4 @@ permissions:
 
 jobs:
   run-tests:
-    uses: ./.github/worflows/test-automation-app.yaml
+    uses: ./.github/workflows/test-automation-app.yaml
