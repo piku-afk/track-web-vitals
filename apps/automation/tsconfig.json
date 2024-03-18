@@ -30,5 +30,6 @@
     "jsx": "preserve",
     "removeComments": true,
     "verbatimModuleSyntax": true
-  }
+  },
+  "exclude": ["coverage"]
 }

@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { closeBrowser, getBrowserPort, startBrowser } from '@utils/browser.js';
 import { checkDatabaseHealth, saveAudit } from '@utils/database.js';
 import { runLighthouse } from '@utils/lighthouse.js';

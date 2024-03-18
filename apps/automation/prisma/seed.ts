@@ -1,3 +1,5 @@
+import { isDeepStrictEqual } from 'node:util';
+
 import { PrismaClient } from '@prisma/client';
 import { logger } from '@utils/logger.js';
 import { performanceMetricsData } from '@utils/performance.js';
@@ -8,9 +10,15 @@ try {
   logger.info('Start Seeding');
 
   await prisma.$connect();
-  await prisma.performanceMetric.createMany({ data: performanceMetricsData });
+  const savedMetrics = await prisma.performanceMetric.findMany();
 
-  logger.info('Complete Seeding');
+  if (isDeepStrictEqual(savedMetrics, performanceMetricsData)) {
+    logger.info('Already Seeded');
+  } else {
+    await prisma.performanceMetric.createMany({ data: performanceMetricsData });
+
+    logger.info('Complete Seeding');
+  }
 } catch (error) {
   logger.error('Error Seeding');
   logger.error(error);

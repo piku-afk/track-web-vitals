@@ -1,37 +1,35 @@
 {
   "name": "track-web-vitals",
   "description": "This tool automatically generates Lighthouse scores, storing them securely in a database for convenient access and comprehensive trend analysis.",
+  "author": "Piyush Mahato",
+  "license": "MIT",
   "version": "1.0.0",
+  "keywords": [],
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "dotenvx run --env-file=.env.development -- tsx src/index.ts",
-    "studio": "dotenvx run --env-file=.env.production -- npx prisma studio",
-    "start": "dotenvx run --env-file=.env.production -- tsx src/index.ts",
-    "format": "prettier -w \"**/*.{ts,json}\" --ignore-unknown --cache",
-    "seed": "dotenvx run --env-file=.env.production -- tsx prisma/seed.ts",
-    "migrate": "dotenvx run --env-file=.env.production -- prisma migrate dev && prisma generate && npm run seed",
-    "test": "vitest run"
+    "dev": "dotenvx run --env-file=.env.development -- turbo dev",
+    "start": "dotenvx run --env-file=.env.production -- turbo start",
+    "format": "prettier -w \"**/*.{ts,json,md}\" --ignore-unknown --cache",
+    "migrate": "dotenvx run --env-file=.env.production -- pnpm --filter automation migrate",
+    "generate": "pnpm --filter automation generate",
+    "seed": "dotenvx run --env-file=.env.production -- pnpm --filter automation seed",
+    "studio": "dotenvx run --env-file=.env.production -- pnpm --filter automation studio",
+    "test": "turbo test",
+    "type-check": "turbo type-check"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": "18.19.0",
+    "npm": "please-use-pnpm",
+    "pnpm": "8.15.4"
+  },
+  "packageManager": "pnpm@8.15.4",
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.2.0",
-    "@vitest/coverage-istanbul": "^1.4.0",
     "prettier": "^3.2.5",
-    "prisma": "^5.11.0",
-    "typescript": "^5.4.2",
-    "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^1.4.0"
+    "turbo": "^1.12.5"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "^0.25.0",
-    "@prisma/client": "^5.11.0",
-    "lighthouse": "^11.6.0",
-    "pino": "^8.19.0",
-    "pino-pretty": "^10.3.1",
-    "puppeteer": "^22.4.1",
-    "tsx": "^4.7.1"
+    "@dotenvx/dotenvx": "^0.25.0"
   }
 }
