@@ -13,5 +13,8 @@ jobs:
   run-tests:
     runs-on: ubuntu-22.04
     steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
       - name: Run Automation App Tests
         uses: ./.github/worflows/test-automation-app.yaml
