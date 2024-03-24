@@ -11,6 +11,8 @@
     "dev:automation": "dotenvx run --env-file=.env.development -- pnpm --filter automation dev",
     "dev:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard dev",
     "dev": "dotenvx run --env-file=.env.development -- turbo dev",
+    "build:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard build",
+    "start:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard start",
     "start": "dotenvx run --env-file=.env.production -- turbo start",
     "format": "prettier -w \"**/*.{ts,tsx,json,md}\" --ignore-unknown --cache",
     "migrate": "dotenvx run --env-file=.env.production -- pnpm --filter automation migrate",
