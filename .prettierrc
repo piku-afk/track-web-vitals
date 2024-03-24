@@ -11,6 +11,14 @@
     "",
     "<THIRD_PARTY_MODULES>",
     "",
+    "^@components/(.*)$",
+    "",
+    "^@utils/(.*)$",
+    "",
+    "^@constants/(.*)$",
+    "",
+    "^@/(.*)$",
+    "",
     "^[./]"
   ],
   "importOrderTypeScriptVersion": "5.4.2"

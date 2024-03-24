@@ -1,5 +1,6 @@
-import { getPerformanceAudits, getPerformanceMetricId } from '@utils/performance.js';
 import type { Result } from 'lighthouse';
+
+import { getPerformanceAudits, getPerformanceMetricId } from '@utils/performance.js';
 
 const lighthouseResult = { audits: {} } as unknown as Result;
 

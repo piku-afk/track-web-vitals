@@ -1,6 +1,7 @@
 import { isDeepStrictEqual } from 'node:util';
 
 import { PrismaClient } from '@prisma/client';
+
 import { logger } from '@utils/logger.js';
 import { performanceMetricsData } from '@utils/performance.js';
 

@@ -9,6 +9,7 @@ coverage
 
 build
 .turbo
+.cache
 
 # Dependency directories
 node_modules/

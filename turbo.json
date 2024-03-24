@@ -8,6 +8,9 @@
       "cache": false
     },
     "test": {},
-    "type-check": {}
+    "type-check": {},
+    "db:generate": {
+      "cache": false
+    }
   }
 }

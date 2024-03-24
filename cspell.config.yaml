@@ -4,10 +4,13 @@ dictionaryDefinitions: []
 dictionaries: []
 words: []
 ignoreWords:
+  - contentful
   - dotenvx
   - ianvs
   - lcov
+  - lucide
   - mahato
+  - mantine
   - pino
   - piyush
 import: []
