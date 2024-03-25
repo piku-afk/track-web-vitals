@@ -24,7 +24,7 @@ vi.mock('@prisma/client', () => {
 });
 
 const url = 'https://www.test.url';
-const performanceMetric = { id: undefined, actualValue: 0, displayValue: '', unit: '' };
+const performanceMetric = { id: undefined, actualValue: 0, displayValue: '', unit: '', score: 0 };
 const lighthouseResult = { audits: {} } as unknown as Result;
 const errorSpy = vi.spyOn(logger, 'error').mockImplementation(vi.fn());
 const getPerformanceAuditsSpy = vi
@@ -49,7 +49,7 @@ test(`${saveAudit.name}(): logs error for undefined lighthouse report`, async ()
 });
 
 test(`${saveAudit.name}(): saves lighthouse report in database`, async () => {
-  const { actualValue, displayValue, unit } = performanceMetric;
+  const { actualValue, displayValue, score, unit } = performanceMetric;
 
   await saveAudit(url, lighthouseResult);
 
@@ -57,6 +57,6 @@ test(`${saveAudit.name}(): saves lighthouse report in database`, async () => {
   expect(create).toBeCalled();
   expect(createMany).toBeCalled();
   expect(createMany).toHaveBeenCalledWith({
-    data: [{ unit, displayValue, performance_metric_id: -1, value: actualValue, report_id: 0 }],
+    data: [{ unit, displayValue, performance_metric_id: -1, value: actualValue, report_id: 0, score }],
   });
 });

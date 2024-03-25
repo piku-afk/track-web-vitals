@@ -19,5 +19,5 @@ test(`${getPerformanceAudits.name}(): should return an array of performance metr
   const result = getPerformanceAudits(lighthouseResult);
 
   expect(result.length).toBe(6);
-  expect(result[0]).toMatchObject({ id: 1, actualValue: 0, displayValue: '', unit: '' });
+  expect(result[0]).toMatchObject({ id: 1, actualValue: 0, displayValue: '', unit: '', score: 0 });
 });
