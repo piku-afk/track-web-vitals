@@ -9,19 +9,31 @@ export const performanceMetricsData = [
   { id: 6, name: 'speed-index' },
 ];
 
-type Value = { id?: number; actualValue: number; displayValue: string; unit: string };
+type Value = {
+  id?: number;
+  actualValue: number;
+  score: number;
+  displayValue: string;
+  unit: string;
+};
 type PerformanceResult = Value[];
 
 export const getPerformanceMetricId = (metricName: string): number | undefined => {
   const metric = performanceMetricsData.find((metric) => metric.name === metricName);
-  return metric ? metric.id : undefined;
+  return metric?.id;
 };
 
 const getData = (result: Result, key: string): Value => {
-  const { numericUnit = '', numericValue = 0, displayValue = '' } = result.audits[key] ?? {};
+  const { numericUnit = '', numericValue = 0, displayValue = '', score } = result.audits[key] ?? {};
   const id = getPerformanceMetricId(key);
 
-  return { id, actualValue: numericValue, displayValue, unit: numericUnit };
+  return {
+    id,
+    actualValue: numericValue,
+    displayValue,
+    unit: numericUnit,
+    score: (score ?? 0) * 100,
+  };
 };
 
 const performanceKeys = performanceMetricsData.map((metric) => metric.name);

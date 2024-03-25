@@ -11,6 +11,7 @@ model MetricData {
   id                    Int               @id @default(autoincrement())
   report_id             Int
   performance_metric_id Int
+  score                 Int               @default(0)
   value                 Float
   unit                  String            @db.VarChar(20)
   displayValue          String            @db.VarChar(255)

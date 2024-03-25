@@ -31,13 +31,14 @@ export const saveAudit = async (url: string, result: Result | undefined): Promis
 
   await prisma.metricData.createMany({
     data: performanceAudit.map((audit) => {
-      const { actualValue, displayValue, unit, id } = audit;
+      const { actualValue, displayValue, unit, id, score } = audit;
 
       return {
         displayValue,
         performance_metric_id: id ?? -1,
         report_id: report.id,
         unit,
+        score,
         value: actualValue,
       };
     }),
