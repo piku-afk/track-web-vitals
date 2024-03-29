@@ -5,7 +5,7 @@ const CardTitle: FC<PropsWithChildren> = (props) => {
   const { children } = props;
 
   return (
-    <Title size={16} order={2} c="#B8B8B8">
+    <Title size="h4" order={3} c="#B8B8B8">
       {children}
     </Title>
   );

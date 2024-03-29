@@ -6,9 +6,9 @@ body {
   background-color: #282a36;
 }
 
-.card {
+.card, .card:active, .card:hover {
   background-color: #44475a;
-  border-color: #6272a4;
+  /* border-color: #6272a4; */
 }
 
 .success {

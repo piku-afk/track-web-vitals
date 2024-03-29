@@ -1,25 +1,23 @@
 import { Group } from '@mantine/core';
 import type { LucideIcon } from 'lucide-react';
 
-import CardInfo from './CardInfo';
+import { useBreakpoints } from '@/hooks/useBreakpoints';
+
 import CardTitle from './CardTitle';
 
 interface CardHeaderProps {
   title: string;
-  description: string;
-  link: string;
   Icon: LucideIcon;
 }
 
 const CardHeader = (props: CardHeaderProps) => {
-  const { description, Icon, link, title } = props;
+  const { Icon, title } = props;
+  const { isXs } = useBreakpoints();
 
   return (
-    <Group component="header" gap={6}>
+    <Group component="header" gap={4} justify={isXs ? 'center' : 'flex-start'}>
+      <Icon size={18} color="#B8B8B8" style={{ marginRight: 8 }} />
       <CardTitle>{title}</CardTitle>
-      <CardInfo label={description} href={link} />
-
-      <Icon size={18} color="#B8B8B8" style={{ marginLeft: 'auto' }} />
     </Group>
   );
 };

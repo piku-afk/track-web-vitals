@@ -1,33 +1,32 @@
 import { LineChart } from '@mantine/charts';
 import { useLoaderData } from '@remix-run/react';
-import { useMemo } from 'react';
 
-import { getFcpData, getStrokeColor } from '@utils/fcpUtils';
+import type { loader } from '@/routes/_index';
 
-import { loader } from '@/routes/_index';
+const getStrokeColor = (averageValue: number) => {
+  if (averageValue > 3000) return '#FF5555';
+  if (averageValue > 1800) return '#FFB86C';
+  return '#50FA7B';
+};
 
 const FcpChart = () => {
-  const { reports, average } = useLoaderData<typeof loader>();
+  const { fcp } = useLoaderData<typeof loader>();
+  const { avg, data, max, min } = fcp;
 
-  const fcpData = useMemo(() => getFcpData(reports), [reports]);
-  const fcpValues = fcpData.map((data) => data.FCP);
-  const minFcp = Math.min(...fcpValues);
-  const maxFcp = Math.max(...fcpValues);
-
-  const strokeColor = getStrokeColor(average);
+  const strokeColor = getStrokeColor(avg);
 
   return (
     <LineChart
       mt={32}
       h={200}
       unit=" ms"
-      dataKey="date"
+      dataKey="created_at"
       curveType="linear"
-      data={fcpData}
+      data={data}
       withYAxis={false}
       tooltipAnimationDuration={200}
-      yAxisProps={{ domain: [minFcp, maxFcp] }}
-      series={[{ name: 'FCP', color: strokeColor }]}
+      yAxisProps={{ domain: [min, max] }}
+      series={[{ name: 'value', label: 'FCP', color: strokeColor }]}
     />
   );
 };

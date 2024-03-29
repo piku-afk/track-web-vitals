@@ -1,4 +1,5 @@
-export type Duration = 'today' | 'week' | 'month' | '3 month';
+import type { Duration } from '@constants/searchParams';
+
 type DateRange = Record<'startDate' | 'endDate', Date>;
 
 export const getDateRange = (duration: Duration): DateRange => {

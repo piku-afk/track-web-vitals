@@ -1,14 +1,22 @@
+import ClsCard from '@cards/ClsCard';
+import FcpCard from '@cards/FcpCard';
+import LcpCard from '@cards/LcpCard';
+import PerformanceCard from '@cards/PerformanceCard';
+import SiCard from '@cards/SiCard';
+import TbtCard from '@cards/TbtCard';
+import { Box, Container, Grid, SimpleGrid, Text, Title } from '@mantine/core';
 import { nprogress } from '@mantine/nprogress';
 import { defer, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import { useNavigation, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 
-import {
-  calculatePercentageDifference,
-  getDateRange,
-  getPreviousDateRange,
-  type Duration,
-} from '@utils/filterUtils';
+import ChartCard from '@components/ChartCard';
+
+import { getDateRange, getPreviousDateRange } from '@utils/filterUtils';
+import { calculatePerformance, fetchMetricData, type Score } from '@utils/metricUtils.server';
+import { getReports } from '@utils/reportUtils.server';
+
+import { SearchParamKeys, type Duration } from '@constants/searchParams';
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,95 +26,51 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const prisma = new PrismaClient();
-  const duration = new URL(request.url).searchParams.get('duration') as Duration;
-  const { endDate, startDate } = getDateRange(duration ?? 'week');
-  const previousDateRange = getPreviousDateRange(duration ?? 'week');
+  const duration = (new URL(request.url).searchParams.get('duration') ?? 'week') as Duration;
 
-  const reports = await prisma.report
-    .findMany({
-      where: {
-        created_at: {
-          lte: endDate,
-          gte: startDate,
-        },
-      },
-      select: {
-        id: true,
-        created_at: true,
-        MetricData: {
-          include: { PerformanceMetric: { select: { name: true } } },
-        },
-      },
-    })
-    .then((reports) =>
-      reports.map((report) => {
-        const { id, created_at, MetricData } = report;
+  // get reports
+  const dateRange = getDateRange(duration);
+  const previousDateRange = getPreviousDateRange(duration);
 
-        const metricData = MetricData?.map((data) => {
-          const { PerformanceMetric, id, displayValue, unit, value } = data;
-          const { name } = PerformanceMetric;
+  const reportIds = await getReports(dateRange).then((reports) =>
+    reports.map((report) => report.id),
+  );
+  const previousReportIds = await getReports(previousDateRange).then((reports) =>
+    reports.map((report) => report.id),
+  );
 
-          return { name, id, unit, value, displayValue };
-        });
+  // get metric data from reports
+  const fcp = await fetchMetricData(reportIds, previousReportIds, 1);
+  const lcp = await fetchMetricData(reportIds, previousReportIds, 2);
+  const tbt = await fetchMetricData(reportIds, previousReportIds, 4);
+  const cls = await fetchMetricData(reportIds, previousReportIds, 5);
+  const si = await fetchMetricData(reportIds, previousReportIds, 6);
 
-        return { id, created_at, metricData };
-      }),
-    );
+  // calculate performance
+  const performance: { data: Score[]; avg: number } = {
+    data: [],
+    avg: calculatePerformance({
+      fcp: fcp.score,
+      cls: cls.score,
+      lcp: lcp.score,
+      si: si.score,
+      tbt: tbt.score,
+    }),
+  };
 
-  const average =
-    (await prisma.metricData
-      .aggregate({
-        where: {
-          report_id: {
-            in: await prisma.report
-              .findMany({
-                where: {
-                  created_at: {
-                    lte: endDate,
-                    gte: startDate,
-                  },
-                },
-                select: { id: true },
-              })
-              .then((reports) => reports.map((reports) => reports.id)),
-          },
-        },
-        _avg: {
-          value: true,
-        },
-      })
-      .then((result) => result._avg.value)) ?? 0;
+  for (let i = 0; i < reportIds.length; i++) {
+    const value = calculatePerformance({
+      fcp: fcp.data[i].value,
+      si: si.data[i].value,
+      cls: cls.data[i].value,
+      lcp: lcp.data[i].value,
+      tbt: tbt.data[i].value,
+    });
 
-  const previousAverage =
-    (await prisma.metricData
-      .aggregate({
-        where: {
-          report_id: {
-            in: await prisma.report
-              .findMany({
-                where: {
-                  created_at: {
-                    lte: previousDateRange.endDate,
-                    gte: previousDateRange.startDate,
-                  },
-                },
-                select: { id: true },
-              })
-              .then((reports) => reports.map((reports) => reports.id)),
-          },
-        },
-        _avg: {
-          value: true,
-        },
-      })
-      .then((result) => result._avg.value)) ?? 0;
+    performance.data.push({ id: i, created_at: fcp.data[i].created_at, unit: 'unitless', value });
+  }
 
-  return defer({
-    reports,
-    average,
-    difference: calculatePercentageDifference(average, previousAverage),
-  });
+  return defer({ fcp, lcp, tbt, cls, si, performance });
 };
 
 export default function Index() {
@@ -119,21 +83,41 @@ export default function Index() {
   }, [state]);
 
   useEffect(() => {
-    if (!searchParams.get('duration')) {
-      setSearchParams({ duration: 'week' });
+    if (!searchParams.get(SearchParamKeys.duration)) {
+      searchParams.set(SearchParamKeys.duration, 'week');
     }
+
+    setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
   return (
-    <Container component="main" size="lg" px={24} py={40}>
+    <Container component="main" size="lg" px={{ base: 24, lg: 0 }} py={40}>
       <Box component="header">
         <Title>Track Web Vitals</Title>
         <Text mt={8}>Web Vitals Tracking for Optimal User Experience</Text>
       </Box>
 
-      <SimpleGrid cols={{ xs: 1, sm: 2 }} spacing={24}>
+      <Grid mt={40} gutter="xs">
+        <Grid.Col span={{ xs: 12, md: 4 }}>
+          <PerformanceCard visibleFrom="md" />
+        </Grid.Col>
+
+        <Grid.Col span={{ xs: 12, md: 8 }}>
+          <ChartCard />
+        </Grid.Col>
+      </Grid>
+
+      <Text mt="xl" mb="xs" size="sm" c="#B8B8B8">
+        Click a tile to see its data in the graph.
+      </Text>
+
+      <SimpleGrid cols={{ base: 2, md: 3 }} spacing="sm" verticalSpacing="md">
+        {/* <PerformanceCard hiddenFrom='sm' /> */}
         <FcpCard />
-        <LcpChart />
+        <SiCard />
+        <LcpCard />
+        <TbtCard />
+        <ClsCard />
       </SimpleGrid>
     </Container>
   );

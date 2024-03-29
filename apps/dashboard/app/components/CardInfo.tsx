@@ -10,7 +10,7 @@ const CardInfo = (props: CardInfoProps) => {
   const { label, href } = props;
 
   return (
-    <Tooltip multiline w={360} withinPortal label={label} position="right-end">
+    <Tooltip multiline w={360} withinPortal label={label} position="top">
       <Anchor
         href={href}
         target="_blank"

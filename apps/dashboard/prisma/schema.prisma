@@ -14,6 +14,7 @@ model MetricData {
   value                 Float
   unit                  String            @db.VarChar(20)
   displayValue          String            @db.VarChar(255)
+  score                 Int               @default(0)
   PerformanceMetric     PerformanceMetric @relation(fields: [performance_metric_id], references: [id])
   Report                Report            @relation(fields: [report_id], references: [id])
 }
