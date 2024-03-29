@@ -3,10 +3,13 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/reac
 
 import '@mantine/core/styles.css';
 import '@mantine/charts/styles.css';
+import '@mantine/nprogress/styles.css';
 
 import mantineTheme from './theme';
 
 import './shared.css';
+
+import { NavigationProgress } from '@mantine/nprogress';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,6 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <MantineProvider theme={mantineTheme}>
+      <NavigationProgress color="#BD93F9" />
       <Outlet />
     </MantineProvider>
   );

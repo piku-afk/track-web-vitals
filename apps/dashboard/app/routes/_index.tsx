@@ -1,9 +1,6 @@
-import FcpCard from '@cards/fcp/FcpCard';
-import LcpChart from '@cards/lcp/LcpCard';
-import { Box, Container, SimpleGrid, Text, Title } from '@mantine/core';
-import { PrismaClient } from '@prisma/client';
+import { nprogress } from '@mantine/nprogress';
 import { defer, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
-import { useSearchParams } from '@remix-run/react';
+import { useNavigation, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 
 import {
@@ -114,6 +111,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function Index() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { state } = useNavigation();
+
+  useEffect(() => {
+    if (state === 'idle') nprogress.complete();
+    if (state === 'loading') nprogress.start();
+  }, [state]);
 
   useEffect(() => {
     if (!searchParams.get('duration')) {

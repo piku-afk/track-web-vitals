@@ -11,6 +11,7 @@ ignoreWords:
   - lucide
   - mahato
   - mantine
+  - nprogress
   - pino
   - piyush
 import: []
