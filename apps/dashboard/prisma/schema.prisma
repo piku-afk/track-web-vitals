@@ -1,5 +1,8 @@
-generator client {
-  provider = "prisma-client-js"
+generator kysely {
+  provider     = "prisma-kysely"
+  output       = "../app/db"
+  fileName     = "types.ts"
+  enumFileName = "enums.ts"
 }
 
 datasource db {
