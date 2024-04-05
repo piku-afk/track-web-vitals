@@ -1,11 +1,12 @@
+import { db } from '@/db/index.server';
+
 import { calculatePercentageDifference } from './filterUtils';
-import { prisma } from './prisma.server';
 
 export interface Score {
   id: number;
   unit: string;
   value: number;
-  created_at: string | null;
+  created_at: Date | null;
 }
 
 interface Stats {
@@ -25,51 +26,41 @@ export const fetchMetricData = async (
   previousReportIds: number[],
   performanceMetricId: number,
 ): Promise<MetricData> => {
-  const data: Score[] = await prisma.metricData
-    .findMany({
-      orderBy: { Report: { created_at: 'asc' } },
-      where: { report_id: { in: reportIds }, performance_metric_id: performanceMetricId },
-      select: { id: true, unit: true, value: true, Report: { select: { created_at: true } } },
-    })
-    .then((data) =>
-      data.map(({ Report: { created_at }, id, unit, value }) => {
-        const date = created_at
-          ? new Date(created_at).toLocaleString('en-IN', {
-              dateStyle: 'medium',
-            })
-          : null;
+  const data = await db
+    .selectFrom('MetricData as m')
+    .where('report_id', 'in', reportIds)
+    .where('performance_metric_id', '=', performanceMetricId)
+    .leftJoin('Report as r', 'm.report_id', 'r.id')
+    .select(['m.id', 'r.created_at as created_at', 'value', 'unit'])
+    .execute();
 
-        return { id, unit, value, created_at: date };
-      }),
-    );
+  const { avg, max, min, score } = await db
+    .selectFrom('MetricData')
+    .where('report_id', 'in', reportIds)
+    .where('performance_metric_id', '=', performanceMetricId)
+    .select((eb) => [
+      eb.fn.avg<number>('value').as('avg'),
+      eb.fn.max<number>('value').as('max'),
+      eb.fn.min<number>('value').as('min'),
+      eb.fn.avg<number>('score').as('score'),
+    ])
+    .executeTakeFirstOrThrow();
 
-  const stats: Stats = await prisma.metricData
-    .aggregate({
-      where: { report_id: { in: reportIds }, performance_metric_id: performanceMetricId },
-      _max: { value: true },
-      _min: { value: true },
-      _avg: { value: true, score: true },
-    })
-    .then((result) => {
-      const { _avg, _max, _min } = result;
+  const { prev_avg } = await db
+    .selectFrom('MetricData')
+    .where('report_id', 'in', previousReportIds)
+    .where('performance_metric_id', '=', performanceMetricId)
+    .select((eb) => eb.fn.avg<number>('value').as('prev_avg'))
+    .executeTakeFirstOrThrow();
 
-      return {
-        avg: _avg.value ?? 0,
-        min: _min.value ?? 0,
-        max: _max.value ?? 0,
-        score: _avg.score ?? 0,
-      };
-    });
-
-  const previousAvg =
-    (await prisma.metricData
-      .aggregate({
-        where: { report_id: { in: previousReportIds }, performance_metric_id: performanceMetricId },
-        _avg: { value: true },
-      })
-      .then((result) => result._avg.value)) ?? 0;
-
-  return { data, diff: calculatePercentageDifference(stats.avg, previousAvg), ...stats };
+  return {
+    data: data,
+    diff: calculatePercentageDifference(avg, prev_avg),
+    avg,
+    max,
+    min,
+    score: score,
+  };
 };
 
 export const calculatePerformance = (

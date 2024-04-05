@@ -1,4 +1,4 @@
-import { prisma } from './prisma.server';
+import { db } from '../db/index.server';
 
 interface GetReportsProps {
   startDate: Date;
@@ -11,13 +11,10 @@ export interface Report {
 }
 
 export const getReports = async ({ startDate, endDate }: GetReportsProps): Promise<Report[]> => {
-  return await prisma.report.findMany({
-    where: {
-      created_at: {
-        lte: endDate,
-        gte: startDate,
-      },
-    },
-    select: { id: true, created_at: true },
-  });
+  return await db
+    .selectFrom('Report')
+    .where('created_at', '>=', startDate)
+    .where('created_at', '<=', endDate)
+    .select(['id', 'created_at'])
+    .execute();
 };
