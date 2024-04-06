@@ -1,36 +1,11 @@
-# Welcome to Remix + Vite!
+# Track-Web-Vitals Dashboard
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
+This project is part of the Track-Web-Vitals monorepo and focuses on the web dashboard application for visualizing website performance metrics.
 
-## Development
+## Key Features
 
-Run the Vite dev server:
-
-```shellscript
-npm run dev
-```
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
+- **Track & Visualize Web Vitals Over Time**: Track and visualize key web vitals over time using Lighthouse data.
+- **Interactive Dashboard with Remix**: Interactive dashboard built with Remix for a dynamic user experience.
+- **Flexible SQL Queries with Kysely**: Leverage Kysely for flexible SQL queries tailored to your needs.
+- **Clean & Informative Display**: Utilize Mantine's component library and charts for a clean and informative display.
+- **Deployment on Render (Scalability Improvements Planned)**: Currently deployed on Render for scalability, with future optimizations planned.
