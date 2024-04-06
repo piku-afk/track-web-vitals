@@ -4,10 +4,16 @@ dictionaryDefinitions: []
 dictionaries: []
 words: []
 ignoreWords:
+  - contentful
   - dotenvx
   - ianvs
+  - kysely
   - lcov
+  - lucide
   - mahato
+  - mantine
+  - nprogress
   - pino
   - piyush
+  - weightage
 import: []

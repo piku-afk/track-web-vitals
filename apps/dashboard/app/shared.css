@@ -1,0 +1,22 @@
+* {
+  color: #f8f8f2;
+}
+
+body {
+  background-color: #282a36;
+}
+
+.card, .card:active, .card:hover {
+  background-color: #44475a;
+  /* border-color: #6272a4; */
+}
+
+.success {
+  color: #50fa7b;
+  stroke: #50fa7b;
+}
+
+.error {
+  color: #ff5555;
+  stroke: #ff5555;
+}

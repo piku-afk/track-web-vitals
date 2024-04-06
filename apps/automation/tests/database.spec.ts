@@ -1,7 +1,8 @@
+import type { Result } from 'lighthouse';
+
 import { checkDatabaseHealth, saveAudit } from '@utils/database.js';
 import { logger } from '@utils/logger.js';
 import * as performanceUtil from '@utils/performance.js';
-import type { Result } from 'lighthouse';
 
 const { $queryRaw, create, createMany } = vi.hoisted(() => ({
   $queryRaw: vi.fn().mockReturnValue([{ health: 1 }]),
