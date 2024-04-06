@@ -7,7 +7,8 @@ This monorepo project offers a solution for you to track your website's performa
 
 ## Apps
 
-- [Automation](./apps//automation/README.md): This project within the monorepo provides a Node.js script that automates Lighthouse score generation and storage.
+- [Automation](./apps/automation/README.md): This project within the monorepo provides a Node.js script that automates Lighthouse score generation and storage.
+- [Dashboard](./apps/dashboard/README.md): This project within the monorepo provides a web dashboard application for visualizing website performance metrics.
 
 ### Additional Notes
 
