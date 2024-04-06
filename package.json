@@ -8,12 +8,11 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev:automation": "dotenvx run --env-file=.env.development -- pnpm --filter automation dev",
-    "dev:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard dev",
-    "dev": "dotenvx run --env-file=.env.development -- turbo dev",
-    "build:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard build",
-    "start:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard start",
-    "start": "dotenvx run --env-file=.env.production -- turbo start --filter dashboard",
+    "dev:automation": "dotenvx run --env-file=.env.development -- turbo --filter automation dev",
+    "dev:dashboard": "dotenvx run --env-file=.env.production -- turbo --filter dashboard dev",
+    "build:dashboard": "dotenvx run --env-file=.env.production -- turbo --filter dashboard build",
+    "start:dashboard": "dotenvx run --env-file=.env.production -- turbo start --filter dashboard",
+    "start:automation": "dotenvx run --env-file=.env.production -- turbo start --filter automation",
     "format": "prettier -w \"**/*.{ts,tsx,json,md}\" --ignore-unknown --cache",
     "migrate": "dotenvx run --env-file=.env.production -- pnpm --filter automation migrate",
     "generate": "turbo db:generate",
@@ -28,7 +27,7 @@
     "npm": "please-use-pnpm",
     "pnpm": "8.x"
   },
-  "packageManager": "pnpm@8.x",
+  "packageManager": "pnpm@8.15.6",
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.2.0",
     "prettier": "^3.2.5",

@@ -16,7 +16,6 @@
     "@mantine/core": "^7.7.0",
     "@mantine/hooks": "^7.7.0",
     "@mantine/nprogress": "^7.7.0",
-    "@prisma/client": "^5.11.0",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@remix-run/serve": "^2.8.1",
@@ -26,8 +25,7 @@
     "pg": "^8.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "recharts": "2",
-    "zustand": "^4.5.2"
+    "recharts": "2"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.8.1",
