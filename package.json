@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "dev:automation": "dotenvx run --env-file=.env.development -- turbo --filter automation dev",
-    "dev:dashboard": "dotenvx run --env-file=.env.production -- turbo --filter dashboard dev",
+    "dev:dashboard": "dotenvx run --env-file=.env.production -- pnpm --filter dashboard dev",
     "build:dashboard": "dotenvx run --env-file=.env.production -- turbo --filter dashboard build",
     "start:dashboard": "dotenvx run --env-file=.env.production -- turbo start --filter dashboard",
     "start:automation": "dotenvx run --env-file=.env.production -- turbo start --filter automation",

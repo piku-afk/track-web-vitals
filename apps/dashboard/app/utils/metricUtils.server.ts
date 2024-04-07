@@ -6,7 +6,7 @@ export interface Score {
   id: number;
   unit: string;
   value: number;
-  created_at: Date | null;
+  created_at: string | null;
 }
 
 interface Stats {
@@ -32,7 +32,13 @@ export const fetchMetricData = async (
     .where('performance_metric_id', '=', performanceMetricId)
     .leftJoin('Report as r', 'm.report_id', 'r.id')
     .select(['m.id', 'r.created_at as created_at', 'value', 'unit'])
-    .execute();
+    .execute()
+    .then((result) =>
+      result.map((data) => ({
+        ...data,
+        created_at: data.created_at?.toLocaleString('en-IN', { dateStyle: 'long' }),
+      })),
+    );
 
   const { avg, max, min, score } = await db
     .selectFrom('MetricData')
@@ -54,7 +60,7 @@ export const fetchMetricData = async (
     .executeTakeFirstOrThrow();
 
   return {
-    data: data,
+    data,
     diff: calculatePercentageDifference(avg, prev_avg),
     avg,
     max,
