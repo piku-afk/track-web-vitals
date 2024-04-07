@@ -1,6 +1,6 @@
 import { LineChart } from '@mantine/charts';
-import { Paper } from '@mantine/core';
-import { useLoaderData, useSearchParams } from '@remix-run/react';
+import { Paper, Skeleton } from '@mantine/core';
+import { useLoaderData, useNavigation, useSearchParams } from '@remix-run/react';
 import { useMemo } from 'react';
 
 import { useBreakpoints } from '@hooks/useBreakpoints';
@@ -16,6 +16,8 @@ const ChartCard = () => {
   const reports = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
   const { isXs } = useBreakpoints();
+  const { state } = useNavigation();
+
   const selectedTile = searchParams.get(SearchParamKeys.selected);
 
   const { data, label, max, color } = useMemo(() => {
@@ -80,25 +82,27 @@ const ChartCard = () => {
   };
 
   return (
-    <Paper
-      component="section"
-      bg="transparent"
-      py={8}
-      px={{ xs: 0, md: 16 }}
-      ml={{ xs: 0, md: 16 }}
-    >
-      <LineChart
-        h={340}
-        data={data}
-        dataKey="created_at"
-        tooltipAnimationDuration={250}
-        valueFormatter={valueFormatter}
-        yAxisProps={{ domain: [0, max] }}
-        series={[{ name: 'value', label, color }]}
-        curveType="linear"
-        withYAxis={!isXs}
-      />
-    </Paper>
+    <Skeleton radius="md" animate visible={state === 'loading'} ml={{ xs: 0, md: 16 }}>
+      <Paper
+        component="section"
+        bg="transparent"
+        py={8}
+        px={{ xs: 0, md: 16 }}
+        ml={{ xs: 0, md: 16 }}
+      >
+        <LineChart
+          h={340}
+          data={data}
+          dataKey="created_at"
+          tooltipAnimationDuration={250}
+          valueFormatter={valueFormatter}
+          yAxisProps={{ domain: [0, max] }}
+          series={[{ name: 'value', label, color }]}
+          curveType="linear"
+          withYAxis={!isXs}
+        />
+      </Paper>
+    </Skeleton>
   );
 };
 
