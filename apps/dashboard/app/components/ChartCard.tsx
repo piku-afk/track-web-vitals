@@ -1,7 +1,9 @@
 import { LineChart } from '@mantine/charts';
-import { Card } from '@mantine/core';
+import { Paper } from '@mantine/core';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { useMemo } from 'react';
+
+import { useBreakpoints } from '@hooks/useBreakpoints';
 
 import { getMetricColor, getPerformanceColor } from '@utils/colorUtils';
 
@@ -13,6 +15,7 @@ import type { loader } from '@/routes/_index';
 const ChartCard = () => {
   const reports = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
+  const { isXs } = useBreakpoints();
   const selectedTile = searchParams.get(SearchParamKeys.selected);
 
   const { data, label, max, color } = useMemo(() => {
@@ -77,7 +80,13 @@ const ChartCard = () => {
   };
 
   return (
-    <Card component="section" bg="transparent" py={8} px={{ xs: 0, md: 16 }} ml={{ md: 16 }}>
+    <Paper
+      component="section"
+      bg="transparent"
+      py={8}
+      px={{ xs: 0, md: 16 }}
+      ml={{ xs: 0, md: 16 }}
+    >
       <LineChart
         h={340}
         data={data}
@@ -87,8 +96,9 @@ const ChartCard = () => {
         yAxisProps={{ domain: [0, max] }}
         series={[{ name: 'value', label, color }]}
         curveType="linear"
+        withYAxis={!isXs}
       />
-    </Card>
+    </Paper>
   );
 };
 

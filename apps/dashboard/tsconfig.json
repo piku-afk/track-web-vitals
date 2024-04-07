@@ -26,6 +26,7 @@
       "@cards/*": ["app/cards/*"],
       "@components/*": ["app/components/*"],
       "@constants/*": ["app/constants/*"],
+      "@hooks/*": ["app/hooks/*"],
       "@utils/*": ["app/utils/*"],
       "@/*": ["app/*"]
     },

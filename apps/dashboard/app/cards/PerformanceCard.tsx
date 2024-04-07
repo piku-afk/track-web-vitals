@@ -13,6 +13,8 @@ import { Info } from 'lucide-react';
 
 import ButtonCard from '@components/ButtonCard';
 
+import { useBreakpoints } from '@hooks/useBreakpoints';
+
 import { getPerformanceColor } from '@utils/colorUtils';
 
 import { CLS, FCP, LCP, SI, TBT } from '@constants/metricData';
@@ -35,14 +37,15 @@ interface PerformanceCardProps {
 const PerformanceCard = (props: PerformanceCardProps) => {
   const { hiddenFrom, visibleFrom } = props;
   const { performance } = useLoaderData<typeof loader>();
+  const { isXs, isSm, isMd } = useBreakpoints();
 
   const { avg } = performance;
 
   return (
     <ButtonCard value={null} hiddenFrom={hiddenFrom} visibleFrom={visibleFrom}>
-      <Group justify="center" mb="xl" gap="xs">
-        <Title size="h3" order={2}>
-          Overall Performance
+      <Group justify={isSm ? 'flex-start' : 'center'} mb={{ xs: 0, md: 'xl' }} gap="xs">
+        <Title size={isXs ? 'h5' : 'h3'} order={2}>
+          {!isXs && 'Overall '}Performance
         </Title>
 
         <HoverCard>
@@ -87,20 +90,25 @@ const PerformanceCard = (props: PerformanceCardProps) => {
         </HoverCard>
       </Group>
 
+      <Text size="lg" fw="bold" hiddenFrom="sm" ta="center" mt={2} c={getPerformanceColor(avg)}>
+        {avg}
+      </Text>
+
       <RingProgress
+        visibleFrom="sm"
         mx="auto"
-        size={176}
-        thickness={14}
+        size={isSm ? 80 : 176}
+        thickness={isSm ? 8 : 14}
         roundCaps
         label={
-          <Text fz={40} fw={700} ta="center" size="xl">
+          <Text {...(isSm ? { size: 'lg' } : { fz: 40 })} ta="center" size="xl">
             {avg}
           </Text>
         }
         sections={[{ value: avg, color: getPerformanceColor(avg) }]}
       />
 
-      <Text mt="lg" size="sm" ta="center" c="#B8B8B8">
+      <Text visibleFrom="md" mt="lg" size="sm" ta="center" c="#B8B8B8">
         for the previous week
       </Text>
     </ButtonCard>

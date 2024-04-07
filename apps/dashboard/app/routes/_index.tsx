@@ -85,9 +85,8 @@ export default function Index() {
   useEffect(() => {
     if (!searchParams.get(SearchParamKeys.duration)) {
       searchParams.set(SearchParamKeys.duration, 'week');
+      setSearchParams(searchParams);
     }
-
-    setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
   return (
@@ -98,7 +97,7 @@ export default function Index() {
       </Box>
 
       <Grid mt={40} gutter="xs">
-        <Grid.Col span={{ xs: 12, md: 4 }}>
+        <Grid.Col visibleFrom="sm" span={{ xs: 12, md: 4 }}>
           <PerformanceCard visibleFrom="md" />
         </Grid.Col>
 
@@ -108,11 +107,11 @@ export default function Index() {
       </Grid>
 
       <Text mt="xl" mb="xs" size="sm" c="#B8B8B8">
-        Click a tile to see its data in the graph.
+        Click a tile to see its detailed data on the graph
       </Text>
 
       <SimpleGrid cols={{ base: 2, md: 3 }} spacing="sm" verticalSpacing="md">
-        {/* <PerformanceCard hiddenFrom='sm' /> */}
+        <PerformanceCard hiddenFrom="md" />
         <FcpCard />
         <SiCard />
         <LcpCard />

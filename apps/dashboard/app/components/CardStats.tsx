@@ -19,35 +19,34 @@ const CardStats = (props: CardStatsProps) => {
   const [searchParams] = useSearchParams();
   const duration = searchParams.get('duration') ?? 'week';
 
-  const formattedScore = +`0${Math.round(score)}`.slice(-2);
+  const roundedScore = Math.round(score);
+  const formattedScore = roundedScore === 100 ? 100 : +`0${roundedScore}`.slice(-2);
 
   return (
-    <Group mt={8} justify={isXs ? 'center' : 'flex-start'}>
-      {!isXs && (
-        <Box>
-          <Group align="flex-end" gap="xs">
-            <Text fz={18} lh={1.32} fw={600}>
-              {primaryText}
-            </Text>
-            <Text fw={600} style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ fontSize: 14 }} className={isDifferencePositive ? 'success' : 'error'}>
-                {Math.round(Math.abs(difference))}%
-              </span>
-              {isDifferencePositive ? (
-                <ArrowUpRight size={18} className="success" />
-              ) : (
-                <ArrowDownRight size={18} className="error" />
-              )}
-            </Text>
-          </Group>
-          <Text size="xs" mt={2} c="#B8B8B8">
-            Compared to previous {duration}
+    <Group mt={8} justify="space-between">
+      <Box>
+        <Group align="flex-end" gap="xs">
+          <Text size={isXs ? 'sm' : 'lg'} fw={600}>
+            {primaryText}
           </Text>
-        </Box>
-      )}
+          <Text visibleFrom="sm" fw={600} style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ fontSize: 14 }} className={isDifferencePositive ? 'success' : 'error'}>
+              {Math.round(Math.abs(difference))}%
+            </span>
+            {isDifferencePositive ? (
+              <ArrowUpRight size={18} className="success" />
+            ) : (
+              <ArrowDownRight size={18} className="error" />
+            )}
+          </Text>
+        </Group>
+        <Text visibleFrom="sm" size="xs" mt={2} c="#B8B8B8">
+          Compared to previous {duration}
+        </Text>
+      </Box>
 
       <RingProgress
-        ml={{ sm: 'auto' }}
+        visibleFrom="sm"
         roundCaps
         size={80}
         thickness={8}

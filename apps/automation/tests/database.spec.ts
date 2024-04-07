@@ -58,6 +58,8 @@ test(`${saveAudit.name}(): saves lighthouse report in database`, async () => {
   expect(create).toBeCalled();
   expect(createMany).toBeCalled();
   expect(createMany).toHaveBeenCalledWith({
-    data: [{ unit, displayValue, performance_metric_id: -1, value: actualValue, report_id: 0, score }],
+    data: [
+      { unit, displayValue, performance_metric_id: -1, value: actualValue, report_id: 0, score },
+    ],
   });
 });

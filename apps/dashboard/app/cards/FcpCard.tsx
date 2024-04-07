@@ -6,18 +6,22 @@ import ButtonCard from '@components/ButtonCard';
 import CardHeader from '@components/CardHeader';
 import CardStats from '@components/CardStats';
 
-import { FCP } from '@constants/metricData';
+import { useBreakpoints } from '@hooks/useBreakpoints';
 
-import { useBreakpoints } from '@/hooks/useBreakpoints';
+import { FCP } from '@constants/metricData';
 
 const FcpCard = () => {
   const { fcp } = useLoaderData<typeof loader>();
   const { avg, diff, score } = fcp;
-  const { isXs, isSm } = useBreakpoints();
+  const { isXs } = useBreakpoints();
 
   return (
     <ButtonCard value={FCP.abbreviation.toLowerCase()}>
-      <CardHeader Icon={Paintbrush2} title={isXs ? FCP.abbreviation : FCP.displayName} />
+      <CardHeader
+        Icon={Paintbrush2}
+        title={isXs ? FCP.abbreviation : FCP.displayName}
+        score={score}
+      />
 
       <CardStats primaryText={`${avg.toFixed(2)} ms`} difference={diff} score={score} />
     </ButtonCard>

@@ -11,6 +11,8 @@ import './shared.css';
 
 import { NavigationProgress } from '@mantine/nprogress';
 
+import ErrorFallback from '@components/ErrorFallback';
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -22,7 +24,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript />
       </head>
       <body>
-        {children}
+        <MantineProvider theme={mantineTheme}>
+          <NavigationProgress color="#BD93F9" />
+          {children}
+        </MantineProvider>
+
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -30,11 +36,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
+export function ErrorBoundary() {
   return (
-    <MantineProvider theme={mantineTheme}>
-      <NavigationProgress color="#BD93F9" />
-      <Outlet />
-    </MantineProvider>
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+        <ColorSchemeScript />
+      </head>
+      <body>
+        <MantineProvider theme={mantineTheme}>
+          <ErrorFallback />
+        </MantineProvider>
+        <Scripts />
+      </body>
+    </html>
   );
+}
+
+export default function App() {
+  return <Outlet />;
 }
