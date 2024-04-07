@@ -24,7 +24,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider theme={mantineTheme}>
+        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
           <NavigationProgress color="#BD93F9" />
           {children}
         </MantineProvider>
